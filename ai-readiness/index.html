@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Readiness Check — progfi</title>
+<meta name="description" content="A free 3-minute check of how ready your team is to operate AI — safely and at increasing autonomy. Runs in your browser; nothing is sent anywhere.">
+<style>
+  :root{
+    --bg:#f7f7f5; --surface:#ffffff; --ink:#15161a; --muted:#5b5f6b; --hint:#8a8f9c;
+    --line:#e6e7ea; --line2:#d7d8dc;
+    --f1:#3257c8; --f1bg:#eaf0ff; --f2:#0f8a6a; --f2bg:#e3f5ee; --warn:#a85d11; --warnbg:#fbeeda;
+    --r:10px; --rl:14px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--bg:#161719;--surface:#1f2023;--ink:#f1efe9;--muted:#b3b2ab;--hint:#86857c;
+      --line:#2d2f33;--line2:#3a3c41;--f1:#8fb0f4;--f1bg:#1d2740;--f2:#5dcaa5;--f2bg:#143028;--warn:#fac775;--warnbg:#3a2c12;}
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);line-height:1.55;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:2.4rem 1.25rem 6rem}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--f1);font-weight:600;margin:0 0 .6rem}
+  h1{font-size:30px;line-height:1.12;margin:0 0 .6rem;font-weight:650;letter-spacing:-.01em}
+  h2{font-size:21px;margin:0 0 .5rem;font-weight:600;letter-spacing:-.01em}
+  h3{font-size:16px;margin:0;font-weight:600}
+  .lede{font-size:17px;color:var(--muted);margin:0;max-width:56ch}
+  .meta{display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem 0 0}
+  .chip{font-size:12.5px;padding:.3rem .7rem;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--muted)}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--rl);padding:1.1rem 1.2rem}
+  .q{margin-top:1rem}
+  .q .qhead{display:flex;align-items:baseline;gap:.6rem;margin-bottom:.7rem}
+  .q .qn{font-size:12.5px;color:var(--hint);font-weight:600;min-width:2.4rem}
+  .q .qname{font-size:16.5px;font-weight:600}
+  .q .gate{font-size:11px;font-weight:600;color:var(--warn);background:var(--warnbg);border-radius:999px;padding:.15rem .55rem;margin-left:.4rem}
+  .opts{display:flex;flex-direction:column;gap:.45rem}
+  .opt{display:flex;gap:.65rem;align-items:flex-start;padding:.7rem .8rem;border:1px solid var(--line);border-radius:var(--r);cursor:pointer;font-size:14.5px;color:var(--muted);transition:border-color .12s,background .12s}
+  .opt:hover{border-color:var(--line2)}
+  .opt.sel{border-color:var(--f1);background:var(--f1bg);color:var(--ink)}
+  .opt .dot{flex:none;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line2);margin-top:1px}
+  .opt.sel .dot{border-color:var(--f1);background:var(--f1);box-shadow:inset 0 0 0 3px var(--surface)}
+  .bar-wrap{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:.7rem 1.25rem;z-index:10}
+  .bar-inner{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:1rem}
+  .prog{flex:1;height:6px;background:var(--line);border-radius:999px;overflow:hidden}
+  .prog i{display:block;height:100%;width:0;background:var(--f1);transition:width .25s}
+  .btn{font:inherit;font-size:15px;font-weight:600;padding:.7rem 1.3rem;border-radius:var(--r);border:1px solid var(--f1);background:var(--f1);color:#fff;cursor:pointer;white-space:nowrap}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .btn.ghost{background:transparent;color:var(--f1)}
+  .pcount{font-size:13px;color:var(--muted);white-space:nowrap}
+  /* results */
+  #results{margin-top:1.5rem}
+  .score-card{display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap}
+  .level-badge{flex:none;width:96px;height:96px;border-radius:18px;background:var(--f1bg);color:var(--f1);display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .level-badge .l{font-size:13px;font-weight:600;opacity:.8}
+  .level-badge .n{font-size:40px;font-weight:700;line-height:1}
+  .note{font-size:14px;border-radius:var(--r);padding:.7rem .9rem;margin-top:.9rem;line-height:1.5}
+  .note.gate{background:var(--warnbg);color:var(--warn)}
+  .note.over{background:var(--warnbg);color:var(--warn)}
+  .dims{margin-top:.4rem}
+  .dim{display:grid;grid-template-columns:1fr;gap:.2rem;padding:.55rem 0;border-top:1px solid var(--line)}
+  .dim:first-child{border-top:0}
+  .dim .top{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;font-size:14px}
+  .dim .nm{font-weight:500}
+  .dim .sc{color:var(--hint);font-variant-numeric:tabular-nums}
+  .track{height:7px;background:var(--line);border-radius:999px;overflow:hidden}
+  .track i{display:block;height:100%;border-radius:999px;background:var(--f1)}
+  .track i.lo{background:var(--warn)}
+  .gaps li{margin:.5rem 0;font-size:14.5px;line-height:1.5}
+  .gaps b{font-weight:600}
+  .cta{margin-top:1.4rem;background:var(--f1bg);border:1px solid var(--f1);border-radius:var(--rl);padding:1.2rem 1.3rem}
+  .cta h2{color:var(--ink)}
+  .cta-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.9rem}
+  .muted-sm{font-size:13px;color:var(--hint);line-height:1.5}
+  footer{margin-top:2.4rem;padding-top:1.2rem;border-top:1px solid var(--line);font-size:12.5px;color:var(--hint);line-height:1.7}
+  a{color:var(--f1)}
+  .hidden{display:none}
+  @media(max-width:520px){h1{font-size:25px}.level-badge{width:80px;height:80px}.level-badge .n{font-size:32px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">progfi · AI readiness</p>
+    <h1>Are you actually ready to operate AI?</h1>
+    <p class="lede">Most teams are <em>using</em> AI. Few can <em>operate</em> it — safely, repeatably, and at increasing autonomy inside real workflows. This is a quick read on where you stand.</p>
+    <div class="meta">
+      <span class="chip">~3 minutes</span>
+      <span class="chip">10 questions</span>
+      <span class="chip">free</span>
+      <span class="chip">runs in your browser — nothing is sent anywhere</span>
+    </div>
+  </header>
+
+  <div id="quiz" style="margin-top:1.6rem"></div>
+
+  <section id="results" class="hidden" aria-live="polite"></section>
+
+  <footer>
+    Vendor-neutral, decision-support diagnostic — not an audit, a certification, or an industry ranking. It operationalizes public frameworks (NIST AI RMF, OWASP, Microsoft, BCG, McKinsey, MIT CISR, Deloitte, the CMM lineage, and public agent-autonomy research) into a single score; no third party has rated your company. Your answers stay in your browser.<br>
+    © <span id="yr"></span> Omer Demirel · <a href="https://progfi.xyz">progfi.xyz</a>
+  </footer>
+</div>
+
+<div class="bar-wrap">
+  <div class="bar-inner">
+    <span class="pcount" id="pcount">0 / 10</span>
+    <div class="prog"><i id="progfill"></i></div>
+    <button class="btn" id="seebtn" disabled>See my result</button>
+  </div>
+</div>
+
+<script>
+// ---- CONFIG ----------------------------------------------------------------
+// Set this to your Cal.com / Calendly link to show a "Book a session" button.
+// Leave "" to use the email button only.
+var BOOKING_URL = "";
+var CONTACT_EMAIL = "omer@progfi.xyz";
+// ----------------------------------------------------------------------------
+
+var DIMS = [
+  {key:"Strategy & leadership", gate:false, move:"Get a named exec sponsor + a funded budget line, and write a one-page strategy tied to 2–3 outcomes.",
+   levels:["No AI strategy — individual experimentation, no sponsor or budget.","A leader is interested; some funded pilots, but no clear thesis.","A written AI strategy tied to 2–3 business outcomes, with an owner and budget.","AI objectives sit in multiple functions' plans; capital allocated at portfolio level.","AI value is a standing input to strategy; capital reallocated in-year from AI data."]},
+  {key:"Data foundations", gate:false, move:"Inventory the data your top use cases need, name owners, and stand up governed access + an eval set.",
+   levels:["No view of what data exists or its quality.","We roughly know what data we have for top use cases; owners unclear.","Governed access + lineage for priority domains; some evaluation datasets.","Reusable data products with quality SLAs, used across teams.","Data quality is monitored and improves automatically from model/agent outcomes."]},
+  {key:"Technology & infrastructure", gate:false, move:"Stand up one approved model gateway and add logging + eval hooks for priority workloads.",
+   levels:["Shadow tools on personal accounts; no approved path, no logging.","An approved model/tool exists for some teams; little monitoring.","Approved gateway + basic LLMOps (versioning, logging, eval hooks) for priority work.","A shared, observable platform with cost controls across teams.","Self-serve, cost-attributed platform; teams ship governed AI changes fast."]},
+  {key:"Talent & skills", gate:false, move:"Run role-based AI literacy and add one specialist for build/eval.",
+   levels:["One or two people hold all the AI know-how.","Basic AI literacy is underway; a few champions.","Role-specific training + at least one specialist for build/eval.","An ongoing capability program and communities of practice; low key-person risk.","Internal mobility into AI roles; skills compound and the org teaches itself."]},
+  {key:"Culture & change", gate:false, move:"Make AI use safe and visible — leaders model it; tie adoption to expectations.",
+   levels:["Fear and uncertainty; AI use is hidden / shadow.","AI use is allowed and a bit encouraged; pockets of enthusiasm.","Adoption is expected and incentivized in priority teams; leaders model it.","Experimentation norms across functions; change is actively managed.","Continuous-improvement culture; teams routinely redesign their own workflows."]},
+  {key:"Operating model & process", gate:false, move:"Redesign 1–2 priority workflows with a human-AI RACI and a named owner.",
+   levels:["AI is bolted onto unchanged processes, if at all.","One workflow mapped for genuine human-AI redesign.","1–2 priority workflows redesigned with a human-AI RACI and named owners.","A repeatable delivery model (CoE / hub-and-spoke) scaling across functions.","Continuous workflow re-architecture is the norm; processes adapt to outcomes."]},
+  {key:"Governance, risk & responsible AI", gate:true, move:"Publish an AI use policy with an owner, then risk-tier use cases behind a review gate.",
+   levels:["No policy — maybe a do/don't memo with no owner.","A published AI use policy with a named accountable owner.","Use cases are risk-tiered behind a pre-deployment review gate.","Governance embedded in delivery, procurement and monitoring — not after the fact.","Continuous, measured governance that improves from incidents and usage."]},
+  {key:"Security & resilience", gate:true, move:"Get secrets managed and scoped; add logging and a rollback / kill-switch for agents.",
+   levels:["Shared keys or keys in env files; no AI-specific controls.","Managed credentials and scoped access for AI systems.","Threat modeling, action logging, and rollback / kill-switch for priority agents.","AI events in security monitoring; a tested AI incident playbook.","Continuous adversarial testing with automated detection/response for agents."]},
+  {key:"Value realization", gate:false, move:"Attach a baseline + target to each use case; track adoption + outcomes; make a scale/kill call.",
+   levels:["\"It feels faster\" — no metrics.","Top use cases carry a baseline + target.","Adoption + outcome metrics tracked; first scale/kill decision made.","A managed portfolio with ROI / EBIT attribution and reallocation.","Real-time value telemetry drives capital allocation; cost per outcome is known."]},
+  {key:"Agentic capability & control", gate:false, move:"Add evals, scoped tools, logging and rollback before widening any agent's autonomy.",
+   levels:["No agents — or ungoverned autonomous actions already running (overreach).","A piloted agent with a human in the loop on every consequential action.","Priority agents have evals, logging, scoped tools, and rollback.","Agents take bounded autonomous actions with monitoring + an exception queue.","Higher-autonomy / multi-agent under continuous controls; humans handle exceptions."]}
+];
+
+var BANDS=[{n:1,name:"Ad hoc",t:"Individual experimentation. The opportunity is real; the operating setup isn't there yet."},
+  {n:2,name:"Emerging",t:"Pilots and local wins, but no system — controls, ownership and value tracking lag the tooling."},
+  {n:3,name:"Operational",t:"Governed, owned, measured in selected domains. The foundation that lets you scale safely."},
+  {n:4,name:"Scaled / integrated",t:"AI embedded across functions, portfolio-managed, governed in delivery."},
+  {n:5,name:"AI-native",t:"Self-improving: systems learn from outcomes, humans handle only the exceptions."}];
+
+var CEIL=["",
+  "Assistive only — AI drafts and suggests; a human does and approves everything.",
+  "Human-approved — agents may act, but a human approves each consequential action.",
+  "Bounded autonomy — low-risk, reversible actions can run with evals, logging and rollback.",
+  "Exception oversight — proven workflows run autonomously; humans handle the exceptions.",
+  "Exception oversight at scale — multi-agent under continuous controls; humans handle exceptions."];
+
+var answers=new Array(DIMS.length).fill(0);
+
+(function render(){
+  var quiz=document.getElementById('quiz'), html="";
+  DIMS.forEach(function(d,i){
+    html+='<div class="q card"><div class="qhead"><span class="qn">'+(i+1)+'/10</span><span class="qname">'+d.key+(d.gate?'<span class="gate">gate</span>':'')+'</span></div><div class="opts" data-q="'+i+'">';
+    d.levels.forEach(function(t,l){
+      html+='<div class="opt" data-q="'+i+'" data-l="'+(l+1)+'"><span class="dot"></span><span>'+t+'</span></div>';
+    });
+    html+='</div></div>';
+  });
+  quiz.innerHTML=html;
+  quiz.addEventListener('click',function(e){
+    var o=e.target.closest('.opt'); if(!o)return;
+    var q=+o.dataset.q, l=+o.dataset.l;
+    answers[q]=l;
+    [].forEach.call(quiz.querySelectorAll('.opt[data-q="'+q+'"]'),function(x){x.classList.toggle('sel',+x.dataset.l===l)});
+    var done=answers.filter(Boolean).length;
+    document.getElementById('pcount').textContent=done+' / 10';
+    document.getElementById('progfill').style.width=(done/10*100)+'%';
+    document.getElementById('seebtn').disabled=done<10;
+  });
+})();
+
+document.getElementById('seebtn').addEventListener('click',compute);
+document.getElementById('yr').textContent=(new Date()).getFullYear();
+
+function compute(){
+  var gov=answers[6], sec=answers[7], agentic=answers[9];
+  var minGS=Math.min(gov,sec);
+  var avg=answers.reduce(function(a,b){return a+b},0)/answers.length;
+  // composite band
+  var bandLvl = avg<1.8?1: avg<2.6?2: avg<3.4?3: avg<4.2?4:5;
+  // governance/security gate cap
+  var cap = minGS<2?2 : minGS<3?3 : 5;
+  var level = Math.min(bandLvl, cap);
+  var band = BANDS[level-1];
+  // strengths / gaps
+  var idx=DIMS.map(function(d,i){return {i:i,s:answers[i],name:d.key,gate:d.gate,move:d.move}});
+  var gaps=idx.slice().sort(function(a,b){return a.s-b.s || (b.gate-a.gate)}).slice(0,3);
+  var ceil=CEIL[minGS];
+  var overreach = agentic>minGS;
+
+  var r=document.getElementById('results'); r.classList.remove('hidden');
+  var bars=DIMS.map(function(d,i){
+    var s=answers[i], lo=(d.gate&&s<3);
+    return '<div class="dim"><div class="top"><span class="nm">'+d.key+(d.gate?' · gate':'')+'</span><span class="sc">'+s+' / 5</span></div><div class="track"><i class="'+(lo?'lo':'')+'" style="width:'+(s/5*100)+'%"></i></div></div>';
+  }).join('');
+
+  var capNote = (cap<bandLvl) ? '<div class="note gate">Governance and security are <b>gates</b>: yours cap you at L'+cap+' until both reach 3/5 — the most common blocker between pilots and real scale.</div>' : '';
+  var overNote = overreach ? '<div class="note over">Heads-up: you\'re running more agent autonomy than your governance/security currently support. Tighten controls or narrow autonomy until they catch up.</div>' : '';
+
+  var gapsHtml=gaps.map(function(g){return '<li><b>'+g.name+'</b> (L'+g.s+') — '+g.move+'</li>'}).join('');
+
+  var booking = BOOKING_URL ? '<a class="btn" href="'+BOOKING_URL+'" target="_blank" rel="noopener">Book a working session</a>' : '';
+  var mailto = buildMail(level, band.name, gaps, minGS);
+
+  r.innerHTML =
+    '<h2 style="margin-top:.4rem">Your result</h2>'+
+    '<div class="card"><div class="score-card">'+
+      '<div class="level-badge"><span class="l">Level</span><span class="n">'+level+'</span></div>'+
+      '<div style="flex:1;min-width:200px"><h3 style="font-size:18px">'+band.name+'</h3><p class="lede" style="font-size:15px;margin-top:.25rem">'+band.t+'</p></div>'+
+    '</div>'+ capNote + overNote +
+    '<div class="note" style="background:var(--f2bg);color:var(--f2)"><b>Safe autonomy ceiling:</b> '+ceil+'</div>'+
+    '</div>'+
+    '<div class="card" style="margin-top:1rem"><h3>Your 10 dimensions</h3><div class="dims">'+bars+'</div></div>'+
+    '<div class="card" style="margin-top:1rem"><h3>Fix these first</h3><ul class="gaps">'+gapsHtml+'</ul></div>'+
+    '<div class="cta"><h2>Want the real version?</h2>'+
+      '<p class="lede" style="font-size:15px">This is the 3-minute self-check. The full assessment reads your actual docs and workflows, and a working session leaves you with one governed AI workflow <b>running in your stack</b> — not a slide deck.</p>'+
+      '<div class="cta-row">'+booking+'<a class="btn '+(booking?'ghost':'')+'" href="'+mailto+'">Email me about a session</a><button class="btn ghost" id="retake">Retake</button></div>'+
+      '<p class="muted-sm" style="margin-top:.8rem">Reach me directly at '+CONTACT_EMAIL+'.</p>'+
+    '</div>';
+
+  document.getElementById('retake').addEventListener('click',function(){
+    r.classList.add('hidden'); window.scrollTo({top:0,behavior:'smooth'});
+  });
+  r.scrollIntoView({behavior:'smooth'});
+}
+
+function buildMail(level,bandName,gaps,minGS){
+  var subj="AI readiness check — let's talk";
+  var body="Hi Omer,\n\nI just ran the AI Readiness Check and got Level "+level+" ("+bandName+").\n\nMy weakest areas:\n"+
+    gaps.map(function(g){return "- "+g.name+" (L"+g.s+")"}).join("\n")+
+    "\n\nI'd like to talk about a working session.\n\nThanks,";
+  return "mailto:"+CONTACT_EMAIL+"?subject="+encodeURIComponent(subj)+"&body="+encodeURIComponent(body);
+}
+</script>
+</body>
+</html>
