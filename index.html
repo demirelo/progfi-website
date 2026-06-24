@@ -3,43 +3,214 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>progfi — practical AI for technical teams</title>
-<meta name="description" content="Helping small technical teams turn scattered AI use into governed, working workflows.">
+<title>progfi — clarity at the frontier of AI, DeFi & blockchain</title>
+<meta name="description" content="Research-driven, operator-tested advisory at the frontier of AI, DeFi and blockchain. I help founders and teams turn AI from scattered experiments into governed, working systems.">
+<meta property="og:title" content="progfi — practical AI for teams at the frontier">
+<meta property="og:description" content="I help founders and teams turn AI from scattered experiments into governed, working systems. Research-driven, operator-tested.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#f7f7f5;--ink:#15161a;--muted:#5b5f6b;--f1:#3257c8;--surface:#fff}
-  @media(prefers-color-scheme:dark){:root{--bg:#161719;--ink:#f1efe9;--muted:#b3b2ab;--f1:#8fb0f4;--surface:#1f2023}}
+  :root{
+    --dark:#17150f; --dark2:#1f1c14; --cream:#f4f0e7; --cream2:#ece6d8;
+    --on-dark:#f0ebde; --on-dark-mut:#a39b89; --on-cream:#1c1a14; --on-cream-mut:#6a6453;
+    --amber:#d49a2c; --amber-deep:#b07d18;
+    --ld:rgba(255,255,255,.11); --lc:rgba(0,0,0,.11);
+    --serif:"Fraunces",Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
   *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);color:var(--ink);padding:1.5rem;line-height:1.55;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
-  main{max-width:560px}
-  .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--f1);font-weight:600;margin:0 0 .8rem}
-  h1{font-size:34px;line-height:1.12;margin:0 0 .8rem;font-weight:650;letter-spacing:-.01em}
-  p{font-size:17px;color:var(--muted);margin:0 0 1.6rem;max-width:48ch}
-  .btn{display:inline-block;font-size:15px;font-weight:600;padding:.75rem 1.3rem;border-radius:10px;background:var(--f1);color:#fff;text-decoration:none}
-  .c{font-size:13.5px;color:var(--muted);margin-top:1.5rem}
-  .c a{color:var(--f1)}
-  .social{display:flex;gap:1.1rem;margin-top:1.2rem}
-  .social a{color:var(--muted);display:inline-flex;transition:color .15s}
-  .social a:hover{color:var(--f1)}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--dark);color:var(--on-dark);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 clamp(1.2rem,4vw,2.4rem)}
+  section{padding:clamp(3.6rem,8vw,6.5rem) 0}
+  .dark{background:var(--dark);color:var(--on-dark)}
+  .cream{background:var(--cream);color:var(--on-cream)}
+  h1,h2,h3{font-family:var(--serif);font-weight:500;letter-spacing:-.01em;margin:0}
+  h1{font-size:clamp(2.4rem,6vw,4.2rem);line-height:1.05}
+  h2{font-size:clamp(1.9rem,4vw,2.9rem);line-height:1.1}
+  .amber{color:var(--amber)}
+  .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--amber);margin:0 0 1.3rem}
+  .cream .eyebrow{color:var(--amber-deep)}
+  p{margin:0 0 1.2rem}
+  .lead{font-size:clamp(1.05rem,1.8vw,1.22rem);color:var(--on-dark-mut);max-width:54ch;line-height:1.6}
+  .cream .lead{color:var(--on-cream-mut)}
+  /* nav */
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 0}
+  .brand{font-family:var(--serif);font-size:1.35rem;font-weight:600;letter-spacing:-.01em;color:var(--on-dark);text-decoration:none}
+  .brand .amber{font-weight:600}
+  .nav-cta{font-size:14px;font-weight:600;color:var(--on-dark);text-decoration:none;border:1px solid var(--ld);padding:.5rem 1rem;border-radius:999px;transition:.15s}
+  .nav-cta:hover{border-color:var(--amber);color:var(--amber)}
+  /* buttons */
+  .btns{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+  .btn{display:inline-flex;align-items:center;gap:.4rem;font-size:15px;font-weight:600;padding:.85rem 1.5rem;border-radius:10px;text-decoration:none;transition:.15s;border:1px solid transparent}
+  .btn-amber{background:var(--amber);color:#1a1408}
+  .btn-amber:hover{background:#e3aa3c}
+  .btn-ghost{background:transparent;border-color:var(--ld);color:var(--on-dark)}
+  .btn-ghost:hover{border-color:var(--on-dark-mut)}
+  .cream .btn-ghost{border-color:var(--lc);color:var(--on-cream)}
+  .cream .btn-ghost:hover{border-color:var(--on-cream-mut)}
+  /* hero */
+  .hero{position:relative;overflow:hidden}
+  .hero h1{max-width:15ch;margin-bottom:1.6rem}
+  .star{position:absolute;top:clamp(5rem,16vw,9rem);right:clamp(1rem,5vw,4rem);width:clamp(60px,9vw,110px);height:auto;color:var(--amber);opacity:.9}
+  @media(max-width:760px){.star{display:none}}
+  /* disciplines */
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2.6rem}
+  .card{background:var(--cream2);border:1px solid var(--lc);border-radius:14px;padding:1.6rem 1.5rem}
+  .card h3{font-size:1.3rem;margin-bottom:.6rem}
+  .card p{font-size:.95rem;color:var(--on-cream-mut);margin:0;line-height:1.55}
+  .card .tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber-deep);font-weight:700;display:block;margin-bottom:.7rem}
+  .process{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-top:2.6rem;padding-top:1.8rem;border-top:1px solid var(--lc);font-size:.95rem}
+  .process b{font-family:var(--serif);font-weight:600}
+  .process .sep{color:var(--amber-deep)}
+  .process .note{color:var(--on-cream-mut);margin-left:auto}
+  /* about */
+  .about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:start;margin-top:2.4rem}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem 1.5rem}
+  .stat .n{font-family:var(--serif);font-size:1.9rem;font-weight:600;color:var(--amber);line-height:1}
+  .stat .l{font-size:.85rem;color:var(--on-dark-mut);margin-top:.35rem;line-height:1.4}
+  .logos{margin-top:2.8rem;padding-top:1.8rem;border-top:1px solid var(--ld)}
+  .logos .lbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--on-dark-mut);margin-bottom:.9rem}
+  .logos .row{display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;font-family:var(--serif);font-size:1.02rem;color:var(--on-dark)}
+  .logos .row span{opacity:.82}
+  /* cta band */
+  .ctaband{text-align:center}
+  .ctaband h2{max-width:18ch;margin:0 auto 1rem}
+  .ctaband .lead{margin:0 auto}
+  .ctaband .btns{justify-content:center}
+  /* footer */
+  footer{background:var(--dark2);color:var(--on-dark-mut);padding:3rem 0 2.4rem;font-size:14px}
+  .foot-top{display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:space-between;align-items:flex-start}
+  .foot-brand{max-width:34ch}
+  .foot-brand .brand{display:inline-block;margin-bottom:.5rem}
+  .foot-brand p{font-size:13.5px;color:var(--on-dark-mut);margin:0}
+  .social{display:flex;gap:1.1rem;margin-top:.2rem}
+  .social a{color:var(--on-dark-mut);display:inline-flex;transition:color .15s}
+  .social a:hover{color:var(--amber)}
   .social svg{width:20px;height:20px;display:block;fill:currentColor}
+  .foot-bottom{display:flex;flex-wrap:wrap;gap:.8rem 1.4rem;justify-content:space-between;margin-top:2.4rem;padding-top:1.4rem;border-top:1px solid var(--ld);font-size:12.5px}
+  .foot-bottom a{color:var(--on-dark-mut);text-decoration:none}
+  .foot-bottom a:hover{color:var(--amber)}
+  @media(max-width:760px){
+    .grid3{grid-template-columns:1fr}
+    .about-grid{grid-template-columns:1fr}
+    .process .note{margin-left:0;flex-basis:100%}
+  }
 </style>
 </head>
 <body>
-<main>
-  <p class="eyebrow">progfi</p>
-  <h1>Practical AI for small technical teams.</h1>
-  <p>I help teams turn scattered AI use into governed, working workflows — installed in your stack, not handed over as a slide deck.</p>
-  <a class="btn" href="ai-readiness/">Take the free AI Readiness Check &rarr;</a>
-  <p class="c">Omer Demirel · <a id="em" href="#">email me</a></p>
-  <div class="social">
-    <a href="https://www.linkedin.com/in/omerdemirel/" target="_blank" rel="me noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-    <a href="https://x.com/demirelo" target="_blank" rel="me noopener" aria-label="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a>
-    <a href="https://github.com/demirelo" target="_blank" rel="me noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
-  </div>
-</main>
+
+  <!-- HERO -->
+  <section class="dark hero">
+    <div class="wrap">
+      <nav class="nav">
+        <a class="brand" href="/">prog<span class="amber">fi</span></a>
+        <a class="nav-cta" href="ai-readiness/">AI Readiness Check &rarr;</a>
+      </nav>
+      <svg class="star" viewBox="0 0 100 100" aria-hidden="true" fill="currentColor"><path d="M50 0c2 26 22 46 48 48-26 2-46 22-48 48-2-26-22-46-48-48 26-2 46-22 48-48Z"/></svg>
+      <div style="padding:clamp(2rem,7vw,5rem) 0 1rem">
+        <p class="eyebrow">AI · DeFi · Blockchain advisory</p>
+        <h1>Clarity at the frontier of <span class="amber">AI</span>, DeFi &amp; blockchain.</h1>
+        <p class="lead">I help founders and teams turn AI from scattered experiments into governed, working systems — research-driven, operator-tested, never hype. Start with a free readiness check, or just tell me what you're working on.</p>
+        <div class="btns">
+          <a class="btn btn-amber" href="ai-readiness/">Take the free AI Readiness Check &rarr;</a>
+          <a class="btn btn-ghost email-js" href="#">Start a conversation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCIPLINES -->
+  <section class="cream">
+    <div class="wrap">
+      <p class="eyebrow">What I do</p>
+      <h2>Three disciplines, one rigorous practice.</h2>
+      <div class="grid3">
+        <div class="card">
+          <span class="tag">Primary</span>
+          <h3>AI &amp; Applied Intelligence</h3>
+          <p>Applied AI, data science, and ML strategy — from agentic, AI-driven research to model design, evaluation, and production systems your team can actually trust.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Edge</span>
+          <h3>Token Engineering &amp; DeFi</h3>
+          <p>Mechanism design, bonding curves, and tokenomics modeling that turn incentives into durable, defensible on-chain economies.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Depth</span>
+          <h3>Blockchain Strategy</h3>
+          <p>Protocol architecture, ecosystem strategy, and Web3 go-to-market — shaped by years working inside leading networks.</p>
+        </div>
+      </div>
+      <div class="process">
+        <b>Diagnose</b> <span class="sep">&rarr;</span> <b>Model</b> <span class="sep">&rarr;</span> <b>Advise</b> <span class="sep">&rarr;</span> <b>Build</b> <span class="sep">&rarr;</span> <b>Iterate</b>
+        <span class="note">Research first, decisions second, durable systems last.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT / CREDIBILITY -->
+  <section class="dark">
+    <div class="wrap">
+      <p class="eyebrow">Who you're working with</p>
+      <h2>Led by deep, hands-on expertise.</h2>
+      <div class="about-grid">
+        <p class="lead">progfi is led by <b style="color:var(--on-dark);font-weight:600">Ömer Demirel</b> — an ETH Zürich CS PhD with research roots at the University of Zürich and the Max Planck Institute (MPI-CBG), and a former Director at the Avalanche Foundation. A decade-plus spans token engineering, mechanism design, data science, and applied AI, including agentic AI-driven research. A scientist's rigor brought to frontier protocols and institutional data teams — focused on your problem, not a pitch.</p>
+        <div class="stats">
+          <div class="stat"><div class="n">15+ yrs</div><div class="l">Across data science, DeFi &amp; token engineering</div></div>
+          <div class="stat"><div class="n">PhD</div><div class="l">Computer Science, ETH Zürich</div></div>
+          <div class="stat"><div class="n">Ex-Director</div><div class="l">Avalanche Foundation</div></div>
+          <div class="stat"><div class="n">Advisor</div><div class="l">To leading DeFi protocols</div></div>
+        </div>
+      </div>
+      <div class="logos">
+        <div class="lbl">Experience across</div>
+        <div class="row">
+          <span>ETH Zürich</span><span>University of Zürich</span><span>MPI-CBG</span><span>Avalanche Foundation</span><span>Inverter Network</span><span>ThreePointZero</span><span>Zurich Insurance</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <section class="cream ctaband">
+    <div class="wrap">
+      <p class="eyebrow">Let's talk</p>
+      <h2>Let's build what's next — carefully.</h2>
+      <p class="lead">Tell me what you're working on. I'll tell you, honestly, whether and how I can help. The fastest start is the free readiness check — three minutes, no signup.</p>
+      <div class="btns">
+        <a class="btn btn-amber" href="ai-readiness/">Take the free AI Readiness Check &rarr;</a>
+        <a class="btn btn-ghost email-js" href="#">Start a conversation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-top">
+        <div class="foot-brand">
+          <a class="brand" href="/">prog<span class="amber">fi</span></a>
+          <p>Programmable &amp; Progressive Finance. Research-driven, operator-tested advisory at the frontier of AI, DeFi and blockchain.</p>
+        </div>
+        <div class="social">
+          <a href="https://www.linkedin.com/in/omerdemirel/" target="_blank" rel="me noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          <a href="https://x.com/demirelo" target="_blank" rel="me noopener" aria-label="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></a>
+          <a href="https://github.com/demirelo" target="_blank" rel="me noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2026 progfi · AI · DeFi · Blockchain Advisory · Zürich</span>
+        <a class="email-js" href="#">Email me</a>
+      </div>
+    </div>
+  </footer>
+
 <script>
   // assemble the address at runtime so it never sits in the page source for scrapers
-  (function(){var a=document.getElementById('em');if(a){var u='omer',d=['progfi','xyz'].join('.');a.href='mailto:'+u+'@'+d;}})();
+  (function(){var u='omer',d=['progfi','xyz'].join('.'),m='mailto:'+u+'@'+d;
+   document.querySelectorAll('.email-js').forEach(function(a){a.href=m;});})();
 </script>
 </body>
 </html>
