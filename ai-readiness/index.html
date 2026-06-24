@@ -114,7 +114,7 @@
 // ---- CONFIG ----------------------------------------------------------------
 // Set this to your Cal.com / Calendly link to show a "Book a session" button.
 // Leave "" to use the email button only.
-var BOOKING_URL = "";
+var BOOKING_URL = "https://calendar.google.com/calendar/appointments/schedules/AcZssZ0nY8ortKIXlzegsRlca9r2mQpPrqFn61pz-2mRVDkMwJA-YU9-sGMWNW_RoxYqFIFqPzoX8SJi";
 var CONTACT_EMAIL = "omer@progfi.xyz";
 // ----------------------------------------------------------------------------
 
@@ -208,7 +208,7 @@ function compute(){
 
   var gapsHtml=gaps.map(function(g){return '<li><b>'+g.name+'</b> (L'+g.s+') — '+g.move+'</li>'}).join('');
 
-  var booking = BOOKING_URL ? '<a class="btn" href="'+BOOKING_URL+'" target="_blank" rel="noopener">Book a working session</a>' : '';
+  var booking = BOOKING_URL ? '<a class="btn" href="'+BOOKING_URL+'" target="_blank" rel="noopener">Book a 30-min teardown &rarr;</a>' : '';
   var mailto = buildMail(level, band.name, gaps, minGS);
 
   r.innerHTML =
@@ -222,7 +222,7 @@ function compute(){
     '<div class="card" style="margin-top:1rem"><h3>Your 10 dimensions</h3><div class="dims">'+bars+'</div></div>'+
     '<div class="card" style="margin-top:1rem"><h3>Fix these first</h3><ul class="gaps">'+gapsHtml+'</ul></div>'+
     '<div class="cta"><h2>Want the real version?</h2>'+
-      '<p class="lede" style="font-size:15px">This is the 3-minute self-check. The full assessment reads your actual docs and workflows, and a working session leaves you with one governed AI workflow <b>running in your stack</b> — not a slide deck.</p>'+
+      '<p class="lede" style="font-size:15px">This is the 3-minute self-check. In a 30-minute teardown (CHF 200, credited toward a sprint) I turn it into the one or two workflows worth building first — and a sprint leaves you with one <b>running in your stack</b>, not a slide deck. Bring this result.</p>'+
       '<div class="cta-row">'+booking+'<a class="btn '+(booking?'ghost':'')+'" href="'+mailto+'">Email me about a session</a><button class="btn ghost" id="retake">Retake</button></div>'+
       '<p class="muted-sm" style="margin-top:.8rem">Reach me directly at '+CONTACT_EMAIL+'.</p>'+
     '</div>';
