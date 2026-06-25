@@ -53,6 +53,14 @@
   .btn-ghost:hover{border-color:var(--on-dark-mut)}
   .cream .btn-ghost{border-color:var(--lc);color:var(--on-cream)}
   .cream .btn-ghost:hover{border-color:var(--on-cream-mut)}
+  .getlbl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--on-dark-mut);margin:1.9rem 0 .7rem}
+  .getlist{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;font-size:13.5px;color:var(--on-dark-mut)}
+  .getlist li{position:relative;padding-left:1.05rem}
+  .getlist li::before{content:"";position:absolute;left:0;top:.52em;width:6px;height:6px;border-radius:50%;background:var(--amber)}
+  .microcopy{font-size:13.5px;color:var(--on-dark-mut);margin:1.3rem 0 0;max-width:54ch;line-height:1.55}
+  .microcopy a{color:var(--amber);text-decoration:none;border-bottom:1px solid rgba(212,154,44,.45)}
+  .microcopy a:hover{border-color:var(--amber)}
+  .plabel{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber-deep);font-weight:700;font-family:var(--sans);margin-right:.2rem}
   /* hero */
   .hero{position:relative;overflow:hidden}
   .hero h1{max-width:15ch;margin-bottom:1.6rem}
@@ -120,6 +128,14 @@
           <a class="btn btn-amber" href="ai-readiness/">Take the free AI Readiness Check &rarr;</a>
           <a class="btn btn-ghost email-js" href="#">Start a conversation</a>
         </div>
+        <p class="getlbl">What you get — free, in 3 minutes</p>
+        <ul class="getlist">
+          <li>Your AI maturity level (L1–L5)</li>
+          <li>A score across 10 dimensions</li>
+          <li>Your safe agent-autonomy ceiling</li>
+          <li>The gaps to fix first</li>
+        </ul>
+        <p class="microcopy">Working on DeFi, tokens, or something not-quite-AI? <a class="email-js" href="#">Tell me what you're building</a> — I'll say honestly whether and how I can help.</p>
       </div>
     </div>
   </section>
@@ -147,6 +163,7 @@
         </div>
       </div>
       <div class="process">
+        <span class="plabel">How I work</span>
         <b>Diagnose</b> <span class="sep">&rarr;</span> <b>Model</b> <span class="sep">&rarr;</span> <b>Advise</b> <span class="sep">&rarr;</span> <b>Build</b> <span class="sep">&rarr;</span> <b>Iterate</b>
         <span class="note">Research first, decisions second, durable systems last.</span>
       </div>
